@@ -64,6 +64,10 @@ angular.module('todomvc')
                         }
 		};
 
+                $scope.changeTodo = function (todo) {
+                        Todo.update({id: todo.id}, todo);
+                };
+
 		$scope.revertEditing = function (todo) {
 			todos[todos.indexOf(todo)] = $scope.originalTodo;
 			$scope.doneEditing($scope.originalTodo);
@@ -76,9 +80,11 @@ angular.module('todomvc')
 		};
 
 		$scope.clearCompletedTodos = function () {
-			$scope.todos = todos = todos.filter(function (val) {
-				return !val.completed;
-			});
+                        Todo.remove(function() {
+                          Todo.query(function(todos) {
+                            $scope.todos = todos;
+                          });
+                        });
 		};
 
 		$scope.markAll = function (completed) {
