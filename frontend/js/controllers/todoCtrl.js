@@ -88,8 +88,13 @@ angular.module('todomvc')
 		};
 
 		$scope.markAll = function (completed) {
-			todos.forEach(function (todo) {
-				todo.completed = !completed;
-			});
+                  // TODO: update the todo only when the REST operation is completed.
+		  todo.completed = !completed;
+		  todos.forEach(function (todo) {
+                    // TODO: implement batch
+                    Todo.update({id: todo.id}, todo, function() {
+                      // TODO: give user feedback about the progress of the operation.
+                    });
+		  });
 		};
 	});
