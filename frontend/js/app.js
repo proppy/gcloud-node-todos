@@ -5,7 +5,10 @@
  *
  * @type {angular.Module}
  */
-angular.module('todomvc', ['ngRoute'])
+angular.module('todomvc', ['ngRoute', 'ngResource'])
+        .factory('Todo', function ($resource) {
+          return $resource('/todos');
+        })
 	.config(function ($routeProvider) {
 		'use strict';
 

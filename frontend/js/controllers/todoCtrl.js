@@ -6,10 +6,10 @@
  * - exposes the model to the template and provides event handlers
  */
 angular.module('todomvc')
-	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage) {
+	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, todoStorage, Todo) {
 		'use strict';
 
-		var todos = $scope.todos = todoStorage.get();
+		var todos = $scope.todos = Todo.query();
 
 		$scope.newTodo = '';
 		$scope.editedTodo = null;
@@ -18,9 +18,6 @@ angular.module('todomvc')
 			$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
 			$scope.completedCount = todos.length - $scope.remainingCount;
 			$scope.allChecked = !$scope.remainingCount;
-			if (newValue !== oldValue) { // This prevents unneeded calls to the local storage
-				todoStorage.put(todos);
-			}
 		}, true);
 
 		// Monitor the current route for changes and adjust the filter accordingly.
@@ -38,10 +35,12 @@ angular.module('todomvc')
 				return;
 			}
 
-			todos.push({
-				title: newTodo,
-				completed: false
-			});
+                        var todo = new Todo();
+                        todo.title = newTodo;
+                        todo.completed = false;
+                        todo.$save(function(data) {
+			  todos.push(data);
+                        });
 
 			$scope.newTodo = '';
 		};
