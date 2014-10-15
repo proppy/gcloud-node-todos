@@ -66,7 +66,9 @@ angular.module('todomvc')
 		};
 
 		$scope.removeTodo = function (todo) {
-			todos.splice(todos.indexOf(todo), 1);
+                        Todo.remove({id: todo.id}, function() {
+			  todos.splice(todos.indexOf(todo), 1);
+                        });
 		};
 
 		$scope.clearCompletedTodos = function () {
