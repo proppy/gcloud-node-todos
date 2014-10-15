@@ -55,9 +55,13 @@ angular.module('todomvc')
 			$scope.editedTodo = null;
 			todo.title = todo.title.trim();
 
+
 			if (!todo.title) {
 				$scope.removeTodo(todo);
-			}
+			} else {
+                                // TODO: `doneEditing` will be triggered twice (by 'onblur' and 'keyup') when validating with enter.
+                                Todo.update({id: todo.id}, todo);
+                        }
 		};
 
 		$scope.revertEditing = function (todo) {

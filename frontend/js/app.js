@@ -7,7 +7,10 @@
  */
 angular.module('todomvc', ['ngRoute', 'ngResource'])
         .factory('Todo', function ($resource) {
-          return $resource('/todos/:id');
+          return $resource('/todos/:id', null,
+                           {
+                             'update': { method:'PUT' }
+                           });
         })
 	.config(function ($routeProvider) {
 		'use strict';
