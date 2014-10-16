@@ -16,6 +16,7 @@ angular.module('todomvc')
 
 		$scope.$watch('todos', function (newValue, oldValue) {
 			$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
+                        // TODO: completedCount doesn't update after archiving.
 			$scope.completedCount = todos.length - $scope.remainingCount;
 			$scope.allChecked = !$scope.remainingCount;
 		}, true);
@@ -59,7 +60,7 @@ angular.module('todomvc')
 			if (!todo.title) {
 				$scope.removeTodo(todo);
 			} else {
-                                // TODO: `doneEditing` will be triggered twice (by 'onblur' and 'keyup') when validating with enter.
+                                // TODO: `doneEditing` is triggered twice (by 'onblur' and 'keyup') when validating with enter.
                                 Todo.update({id: todo.id}, todo);
                         }
 		};
